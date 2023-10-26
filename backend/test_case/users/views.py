@@ -1,18 +1,10 @@
-from djoser.views import UserViewSet
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from users.models import User
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
-from .serializers import UserSerializer
+from .forms import CreationForm
 
 
-class UserViewSet(UserViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-    @action(detail=False, permission_classes=[IsAuthenticated])
-    def me(self, request):
-        user = User.objects.get(pk=request.user.id)
-        serializer = self.get_serializer(user)
-        return Response(serializer.data)
+class SignUp(CreateView):
+    form_class = CreationForm
+    success_url = reverse_lazy("posts:index")
+    template_name = "users/signup.html"

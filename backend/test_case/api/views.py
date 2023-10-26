@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.shortcuts import render
 
 from .models import Bookmark
@@ -28,4 +29,19 @@ def list_bookmarks(request):
             }
         )
 
-    return render(request, 'list_bookmarks.html', {'bookmarks': context})
+    return render(
+        request, 'bookmarks/list_bookmarks.html', {'bookmarks': context}
+    )
+
+
+def add_bookmark(request):
+    if request.method == 'POST':
+        url = request.POST.get('url')
+
+        if Bookmark.objects.filter(url=url).exists():
+            raise ValidationError("Закладка с таким URL уже существует.")
+
+        new_bookmark = Bookmark(url=url)
+        new_bookmark.save()
+
+    return render(request, 'bookmarks/add_bookmark.html')
