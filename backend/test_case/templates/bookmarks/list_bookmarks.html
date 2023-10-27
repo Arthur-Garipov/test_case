@@ -8,9 +8,9 @@
     <ul>
         {% for bookmark in bookmarks %}
         <li>
-            <a href="{{ bookmark.url }}">{{ bookmark.title }}</a>
-            <p>{{ bookmark.description }}</p>
-            <img src="{{ bookmark.favicon }}" alt="Favicon">
+            <h1>Title: {{ parsed_data.title }}</h1>
+            <p>Description: {{ parsed_data.description }}</p>
+            <img src="{{ parsed_data.favicon }}" alt="Favicon">
         </li>
         {% endfor %}
     </ul>

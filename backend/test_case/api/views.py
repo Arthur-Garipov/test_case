@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.core.validators import URLValidator
 from django.shortcuts import render
 
 from .models import Bookmark
@@ -35,13 +36,26 @@ def list_bookmarks(request):
 
 
 def add_bookmark(request):
+    error_message = None
+
     if request.method == 'POST':
         url = request.POST.get('url')
 
-        if Bookmark.objects.filter(url=url).exists():
-            raise ValidationError("Закладка с таким URL уже существует.")
+        url_validator = URLValidator()
+        try:
+            url_validator(url)
+        except ValidationError as e:
+            error_message = str(e)
 
-        new_bookmark = Bookmark(url=url)
-        new_bookmark.save()
+        if not error_message:
+            if Bookmark.objects.filter(url=url).exists():
+                error_message = "Закладка с таким URL уже существует."
+            else:
+                new_bookmark = Bookmark(url=url)
+                new_bookmark.save()
 
-    return render(request, 'bookmarks/add_bookmark.html')
+    return render(
+        request,
+        'bookmarks/add_bookmark.html',
+        {'error_message': error_message},
+    )
