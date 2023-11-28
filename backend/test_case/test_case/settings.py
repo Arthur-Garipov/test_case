@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "users.apps.UsersConfig",
     "api.apps.ApiConfig",
+    "core.apps.CoreConfig",
 ]
 
 MIDDLEWARE = [
@@ -92,6 +93,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 LOGIN_URL = "users:login"
-LOGIN_REDIRECT_URL = "index"
+LOGIN_REDIRECT_URL = "list_bookmarks"
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")

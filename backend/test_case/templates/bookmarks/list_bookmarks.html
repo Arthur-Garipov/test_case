@@ -4,14 +4,27 @@
 
 {% block content %}
 <div class="container">
+  <h1>Добавление закладки</h1>
+  <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+          <label for="url">URL закладки:</label>
+          <input type="text" name="url" class="form-control" placeholder="Введите URL">
+      </div>
+      <button type="submit" class="btn btn-primary">Добавить закладку</button>
+  </form>
+</div>
+<div class="container">
     <h1>Список закладок</h1>
     <ul>
         {% for bookmark in bookmarks %}
-        <li>
-            <h1>Title: {{ parsed_data.title }}</h1>
-            <p>Description: {{ parsed_data.description }}</p>
-            <img src="{{ parsed_data.favicon }}" alt="Favicon">
-        </li>
+              <li>
+                  <h2>URL: {{bookmark.url}}</h2>
+                  <h3>Title:</h3> {{ bookmark.title }}
+                  <h3>Description:</h3> {{ bookmark.description }}
+                  <h3>Image: <img src="{{ bookmark.favicon }}" alt="Favicon"></h3>
+                  <a href="{% url 'delete_bookmark' bookmark.id %}">Удалить</a>
+              </li>
         {% endfor %}
     </ul>
 </div>

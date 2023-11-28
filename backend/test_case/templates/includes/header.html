@@ -10,6 +10,9 @@
             {% with request.resolver_match.view_name as view_name %}
           {% if user.is_authenticated %}
           <li class="nav-item">
+            <a class="nav-link link-light {% if view_name  == 'list_bookmarks' %}active{% endif %}" href="{% url 'list_bookmarks' %}">Список закладок</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link link-light {% if view_name  == 'users:logout' %}active{% endif %}" href="{% url 'users:logout' %}">Выйти</a>
           </li>
           <li>
