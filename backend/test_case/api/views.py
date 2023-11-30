@@ -24,7 +24,7 @@ def list_bookmarks(request):
         try:
             url_validator(url)
         except ValidationError as e:
-            error_message = str(e)
+            error_message = 'Введите корректный URL адрес'
 
         if not error_message:
             if Bookmark.objects.filter(url=url).exists():
@@ -44,7 +44,7 @@ def list_bookmarks(request):
     return render(
         request,
         'bookmarks/list_bookmarks.html',
-        {'bookmarks': bookmarks},
+        {'bookmarks': bookmarks, 'error_message': error_message},
     )
 
 
